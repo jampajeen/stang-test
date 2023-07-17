@@ -1,0 +1,14 @@
+{
+  "name": "stang-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/jampajeen/stang-test.git",
+  "author": "Thitipong Jampajeen <jampajeen@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-ganache": "^2.0.1",
+    "@nomiclabs/hardhat-waffle": "^2.0.6",
+    "hardhat": "^2.16.1"
+  }
+}

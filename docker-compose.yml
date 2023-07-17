@@ -1,0 +1,58 @@
+version: "3.6"
+networks:
+  default:
+    driver: bridge
+
+services:
+  # monitor-service:
+  #   build: "."
+  #   restart: always
+  #   volumes:
+  #     - ./scripts:/scripts
+  #   command: [ "/scripts/wait-for.sh", "mongodb:27017", "--", "/scripts/wait-for.sh", "saas-mysql:3306",  "--",  "monitor-service" ]
+  #   depends_on:
+  #     - mongodb
+  #   networks:
+  #     - default
+  #   links:
+  #     - "mongodb"
+  #   ports:
+  #     - "8081:8083"
+  #   environment:
+  #     TZ: Asia/Bangkok
+  #     APP_BIND_PORT: "8083"
+
+  mongosetup:
+    image: mongo:4.2.8
+    depends_on:
+      - mongodb
+    volumes:
+      - ./scripts:/scripts
+    restart: "no"
+    entrypoint: [ "bash", "/scripts/mongo_setup.sh" ]
+
+  mongodb:
+    image: mongo:4.2.8
+    environment:
+      TZ: Asia/Bangkok
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_DATA_DIR: /var/lib/mongodb
+      MONGO_LOG_DIR: /dev/null
+    volumes:
+      - mongo_data:/var/lib/mongodb
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD-SHELL", "if mongo --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'; then exit 0; fi; exit 1;"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    
+volumes:
+  mongo_data:
+    driver: local
