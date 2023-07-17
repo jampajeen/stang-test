@@ -1,6 +1,6 @@
 environment: development
 app:
   bindport: 8083
-  rpcurl: ws://127.0.0.1:8545
+  rpcurl: ws://host.docker.internal:8545
   mongodburl: mongodb://root:password@mongodb:27017/test
   mongodbname: test

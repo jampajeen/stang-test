@@ -4,23 +4,23 @@ networks:
     driver: bridge
 
 services:
-  # monitor-service:
-  #   build: "."
-  #   restart: always
-  #   volumes:
-  #     - ./scripts:/scripts
-  #   command: [ "/scripts/wait-for.sh", "mongodb:27017", "--", "/scripts/wait-for.sh", "saas-mysql:3306",  "--",  "monitor-service" ]
-  #   depends_on:
-  #     - mongodb
-  #   networks:
-  #     - default
-  #   links:
-  #     - "mongodb"
-  #   ports:
-  #     - "8081:8083"
-  #   environment:
-  #     TZ: Asia/Bangkok
-  #     APP_BIND_PORT: "8083"
+  monitor-service:
+    build: "."
+    restart: always
+    volumes:
+      - ./scripts:/scripts
+    command: [ "/scripts/wait-for.sh", "mongodb:27017", "--",  "monitor-service" ]
+    depends_on:
+      - mongodb
+    networks:
+      - default
+    links:
+      - "mongodb"
+    ports:
+      - "8083:8083"
+    environment:
+      TZ: Asia/Bangkok
+      APP_BIND_PORT: "8083"
 
   mongosetup:
     image: mongo:4.2.8
